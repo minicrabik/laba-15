@@ -24,4 +24,7 @@ matrix *getMemArrayOfMatrices(int n_matrices, int n_rows, int n_cols);
 // освобождает память выделенную под массив m
 void free_mem_matrix(matrix *m);
 
+// освобождает память ms занимаемую n_matrices матрицами
+void free_mem_matrices(matrix *ms, int n_matrices);
+
 #endif //UNTITLED15_MATRIX_H

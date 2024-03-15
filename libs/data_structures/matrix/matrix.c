@@ -26,3 +26,13 @@ void free_mem_matrix(matrix *m) {
     m->n_rows = 0;
     m->n_cols = 0;
 }
+
+void free_mem_matrices(matrix *ms, int n_matrices) {
+    for (size_t i = 0; i < n_matrices; i++)
+        free_mem_matrix(ms + i);
+
+    free(ms->values);
+    ms->values = NULL;
+    ms->n_rows = 0;
+    ms->n_cols = 0;
+}
