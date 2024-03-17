@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <memory.h>
+#include <stdbool.h>
 #include "matrix.h"
 
 void swap(int *x, int *y) {
@@ -52,7 +53,7 @@ void inputMatrix(matrix  *m) {
             scanf("%d", &m->values[i][j]);
     }
 }
-void input_matrices(matrix *ms, int n_matrices) {
+void inputMatrices(matrix *ms, int n_matrices) {
     for (size_t i = 0; i < n_matrices; i++) {
         printf("input %lld matrix\n", i + 1);
         inputMatrix(ms + i);
@@ -61,10 +62,10 @@ void input_matrices(matrix *ms, int n_matrices) {
 }
 
 
-void outputMatrix(matrix* m) {
-    for (size_t i = 0; i < m->n_rows; i++) {
-        for (size_t j = 0; j < m->n_cols; j++)
-            printf("%d ", m->values[i][j]);
+void outputMatrix(matrix m) {
+    for (size_t i = 0; i < m.n_rows; i++) {
+        for (size_t j = 0; j < m.n_cols; j++)
+            printf("%d ", m.values[i][j]);
         printf("\n");
     }
     printf("\n");
@@ -73,7 +74,7 @@ void outputMatrix(matrix* m) {
 
 void outputMatrices(matrix *ms, int n_matrices) {
     for (size_t i = 0; i < n_matrices; i++)
-        outputMatrix(*ms + i);
+        outputMatrix(*(ms + i));
 }
 
 
@@ -140,7 +141,6 @@ void selectionSortColsMatrixByColCriteria(matrix* m, int (*criteria) (int*, int)
     }
 }
 
-
 bool isSquareMatrix(matrix* m) {
     return m->n_rows == m->n_cols;
 }
@@ -153,35 +153,6 @@ bool areTwoMatricesEqual(matrix* m1, matrix* m2) {
     return true;
 }
 
-
-bool isEMatrix(matrix *m) {
-    int e[m->n_cols + 1];
-    for (
-            size_t i = 1;
-            i <= m->
-                    n_cols;
-            i++)
-        e[i] = 0;
-    e[0] = 1;
-
-
-    for (
-            size_t i = 0;
-            i < m->
-                    n_rows;
-            i++) {
-        if (
-                memcmp(m
-                               ->values[i], e, m->n_cols) != 0)
-            return false;
-        e[i + 1] = 1;
-        e[i] = 0;
-    }
-
-return true;
-}
-
-
 bool isEMatrix(matrix *m) {
     for (size_t i = 0; i < m->n_rows; i++)
         for (size_t j = 0; j < m->n_cols; j++)
@@ -189,7 +160,6 @@ bool isEMatrix(matrix *m) {
                 return false;
     return true;
 }
-
 
 bool isSymmetricMatrix(matrix *m) {
     for (size_t i = 0; i < m->n_rows; i++)
@@ -245,4 +215,44 @@ position getMinValuePos(matrix m) {
             }
 
     return pos;
+}
+
+position getMaxValuePos(matrix m) {
+    int max_value = m.values[0][0];
+    position pos = {0, 0};
+
+    for (int i = 0; i < m.n_rows; i++)
+        for (int j = 0; j < m.n_cols; j++)
+            if (m.values[i][j] > max_value) {
+                max_value = m.values[i][j];
+                pos.row_index = i;
+                pos.col_index = j;
+            }
+
+    return pos;
+}
+
+
+matrix createMatrixFromArray(const int a[], int n_rows, int n_cols) {
+    matrix m = getMemMatrix(n_rows, n_cols);
+
+    int k = 0;
+    for (int i = 0; i < n_rows; i++)
+        for (int j = 0; j < n_cols; j++)
+            m.values[i][j] = a[k++];
+
+    return m;
+}
+
+
+matrix* createArrayOfMatrixFromArray(const int values[], size_t n_matrices, size_t n_rows, size_t n_cols) {
+    matrix* ms = getMemArrayOfMatrices(n_matrices, n_rows, n_cols);
+
+    int l = 0;
+    for (size_t k = 0; k < n_matrices; k++)
+        for (size_t i = 0; i < n_rows; i++)
+            for (size_t j = 0; j < n_cols; j++)
+                ms[k].values[i][j] = values[l++];
+
+    return ms;
 }

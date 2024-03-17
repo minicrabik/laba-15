@@ -41,11 +41,6 @@ void outputMatrix(matrix m);
 // вывод массива из n_matrices матриц, хранящейся по адресу ms.
 void outputMatrices(matrix *ms, int n_matrices);
 
-
-// вывод ms состоящую из n_matrices матриц
-void outputMatrices(matrix *ms, int n_matrices);
-
-
 // меняет местами строки i1 и i2 в матрице m
 void swapRows(matrix *m, int i1, int i2);
 
@@ -91,5 +86,18 @@ void transposeMatrix(matrix *m);
 
 // возвращает position минимального элемента матрицы m
 position getMinValuePos(matrix m);
+
+// возвращает position максимального элемента матрицы m
+position getMaxValuePos(matrix m);
+
+
+// возвращает матрицу matrix размера n_rows на n_cols
+// построенную из элементов массива a
+matrix createMatrixFromArray(const int a[], int n_rows, int n_cols);
+
+
+// возвращает указатель на нулевую матрицу массива из n_matrices матриц размеров n_rows на n_cols
+// построенных из элементов массива values
+matrix* createArrayOfMatrixFromArray(const int values[], size_t n_matrices, size_t n_rows, size_t n_cols);
 
 #endif //UNTITLED15_MATRIX_H
